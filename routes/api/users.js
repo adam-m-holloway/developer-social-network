@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('config');
 const { check, validationResult } = require('express-validator/check'); // uses validator.js form validation server side
 
 const User = require('../../models/User');
@@ -60,8 +62,25 @@ router.post(
       // save user to database
       await user.save();
 
-      // return jsonwebtoken
-      res.send('User registered');
+      // Get the user by ID
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
+
+      // Sign the token
+      jwt.sign(
+        payload,
+        config.get('jwtSecret'), // gets secret from `config/defaults.json`
+        {
+          expiresIn: 360000, // TODO: change to 3600 for prod
+        },
+        (error, token) => {
+          if (error) throw error; // if error throw error
+          res.json({ token }); // send token  back to client
+        }
+      );
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server error'); // returns 500 error with a message of "Server error"
