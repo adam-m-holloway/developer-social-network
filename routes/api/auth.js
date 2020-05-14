@@ -4,7 +4,7 @@ const auth = require('../../middleware/auth');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const config = require('config');
-const { check, validationResult } = require('express-validator/check'); // uses validator.js form validation server side
+const { check, validationResult } = require('express-validator'); // uses validator.js form validation server side
 
 const User = require('../../models/User');
 
