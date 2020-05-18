@@ -5,7 +5,7 @@ Fullstack JavaScript application built with Mongo, Express, React and Node (MERN
 Features include:
   * User registration
   * User login
-  * JWT for passing data
+  * JWT for authentication
   * Ability to create/update/delete user profile
   * Ability to add and like a post/s
 
