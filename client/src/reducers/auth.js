@@ -3,6 +3,9 @@ import {
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
+  LOGIN_SUCCESS,
+  LOGIN_FAIL,
+  LOGOUT,
 } from '../actions/types';
 
 const initialState = {
@@ -25,6 +28,7 @@ export const auth = (state = initialState, action) => {
       };
 
     case REGISTER_SUCCESS:
+    case LOGIN_SUCCESS:
       localStorage.setItem('token', payload.token); // set the token if available
       return {
         ...state,
@@ -33,9 +37,11 @@ export const auth = (state = initialState, action) => {
         loading: false,
       };
 
-    // clear auth state and local storage
+    // clear auth state and local storage token
     case REGISTER_FAIL:
     case AUTH_ERROR:
+    case LOGIN_FAIL:
+    case LOGOUT:
       localStorage.removeItem('token'); // remove anything that is in localStorage
       return {
         ...state,
